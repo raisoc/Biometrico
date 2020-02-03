@@ -23,21 +23,16 @@ namespace bo.gp.Recolector
             var pathOrigen = configuration.GetSection("Ruta").Value;
 
             List<DispositivoInf> dispositivoInfs = new List<DispositivoInf>();
-            var dispositivos = GetDispositivos(Conector.SqlServer);
+            var dispositivos = GetDispositivos(Conector.MySql);
             foreach (var dispositivo in dispositivos)
             {
-                //var lst = GetMachinesInf(dispositivo);
                 var dispositivoInf = GetDispositivoInf(dispositivo, fechacorte);
-                //dispositivoInf.machinesInf = lst;
                 dispositivoInfs.Add(dispositivoInf);
             }
             var isregistroTxt = RegistrarEventosTxt(dispositivoInfs, pathOrigen);
             if (isregistroTxt)
             {
-                var lstSqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.SqlServer);
                 var lstMySqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.MySql);
-                if (lstSqlNoregistro.Count>0)
-                RegistrarEventosTxtNoDB(lstSqlNoregistro, pathOrigen, Conector.SqlServer);
                 if (lstMySqlNoregistro.Count > 0)
                     RegistrarEventosTxtNoDB(lstMySqlNoregistro, pathOrigen, Conector.MySql);
             }
@@ -46,6 +41,65 @@ namespace bo.gp.Recolector
                 Console.WriteLine("No registro Text");
             }
         }
+        public static void RecoletarAsistenciasDB2(DateTime fechacorte)
+        {
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", optional: false);
+            var configuration = builder.Build();
+            var pathOrigen = configuration.GetSection("Ruta").Value;
+
+            List<DispositivoInf> dispositivoInfs = new List<DispositivoInf>();
+            var dispositivos = GetDispositivos(Conector.SqlServer);
+            foreach (var dispositivo in dispositivos)
+            {
+                var dispositivoInf = GetDispositivoInf(dispositivo, fechacorte);
+                dispositivoInfs.Add(dispositivoInf);
+            }
+            var isregistroTxt = RegistrarEventosTxt(dispositivoInfs, pathOrigen);
+            if (isregistroTxt)
+            {
+                var lstSqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.SqlServer);
+                var lstMySqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.MySql);
+                if (lstSqlNoregistro.Count > 0)
+                    RegistrarEventosTxtNoDB(lstSqlNoregistro, pathOrigen, Conector.SqlServer);
+                if (lstMySqlNoregistro.Count > 0)
+                    RegistrarEventosTxtNoDB(lstMySqlNoregistro, pathOrigen, Conector.MySql);
+            }
+            else
+            {
+                Console.WriteLine("No registro Text");
+            }
+        }
+        public static void RecoletarAsistenciasDB3(DateTime fechacorte)
+        {
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", optional: false);
+            var configuration = builder.Build();
+            var pathOrigen = configuration.GetSection("Ruta").Value;
+
+            List<DispositivoInf> dispositivoInfs = new List<DispositivoInf>();
+            var dispositivos = GetDispositivos(Conector.MySql);
+            foreach (var dispositivo in dispositivos)
+            {
+                var dispositivoInf = GetDispositivoInf(dispositivo, fechacorte);
+                dispositivoInfs.Add(dispositivoInf);
+            }
+            var isregistroTxt = RegistrarEventosTxt(dispositivoInfs, pathOrigen);
+            if (isregistroTxt)
+            {
+                var lstSqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.SqlServer);
+                var lstMySqlNoregistro = RegistrarEventoDB(dispositivoInfs, Conector.MySql);
+                if (lstSqlNoregistro.Count > 0)
+                    RegistrarEventosTxtNoDB(lstSqlNoregistro, pathOrigen, Conector.SqlServer);
+                if (lstMySqlNoregistro.Count > 0)
+                    RegistrarEventosTxtNoDB(lstMySqlNoregistro, pathOrigen, Conector.MySql);
+            }
+            else
+            {
+                Console.WriteLine("No registro Text");
+            }
+        }
+
 
 
         //private static ICollection<Machine> GetMachinesInf(Dispositivo dispositivo)
