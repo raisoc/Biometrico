@@ -24,7 +24,6 @@ namespace ConsoleApp1
             config.Save(ConfigurationSaveMode.Modified);
             Manejador.RecoletarAsistencias(fechaCorte);
             Console.WriteLine( "Final\n");
-
         }
     }
 }
